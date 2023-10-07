@@ -13,6 +13,6 @@ namespace BusinessLayer.Contracts.Customer
         Task<int> DeleteCustomer(int id);
         Task<IEnumerable<Customers>> GetAllCustomers();
         Task<Customers> GetCustomerById(int id);
-        Task<int> UpdateCustomer(int id);
+        Task<int> UpdateCustomer(Customers customer);
     }
 }

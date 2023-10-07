@@ -5,7 +5,7 @@ using RepositoryLayer.Entities.Customer;
 
 namespace FieldEdge.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class CustomerController : ControllerBase
     {
@@ -48,10 +48,10 @@ namespace FieldEdge.Controllers
             CustomerResponse custResponse = new CustomerResponse();
             try
             {
-                await _customerService.CreateCustomer(customers);
-                if (1 == 1)
+                int id = await _customerService.CreateCustomer(customers);
+                if (id > 0)
                 {
-                    custResponse.SuccessMessage = "Record Saved Successfully !";
+                    custResponse.SuccessMessage = "Record created with Id = "+ id +" Successfully !";
                 }
             }
             catch (Exception ex)
@@ -90,15 +90,15 @@ namespace FieldEdge.Controllers
 
         [HttpPost]
         [Route("Customer/{id}")]
-        public async Task<IActionResult> UpdateCustomer(int id)
+        public async Task<IActionResult> UpdateCustomer(Customers customer)
         {
             CustomerResponse custResponse = new CustomerResponse();
             try
             {
-                int status = await _customerService.UpdateCustomer(id);
-                if (1 == 1)
+                int status = await _customerService.UpdateCustomer(customer);
+                if (status == 1)
                 {
-                    custResponse.SuccessMessage = "Customer with Id =" + id + "updated successfully.";
+                    custResponse.SuccessMessage = "Customer with Id =" + customer.Id + "updated successfully.";
                 }
             }
             catch (Exception ex)

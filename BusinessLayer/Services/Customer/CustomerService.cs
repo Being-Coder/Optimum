@@ -38,9 +38,9 @@ namespace BusinessLayer.Services.Customer
             return await _customerRepo.GetCustomerById(id);
         }
 
-        public async Task<int> UpdateCustomer(int id)
+        public async Task<int> UpdateCustomer(Customers customer)
         {
-            return await _customerRepo.UpdateCustomer(id);
+            return await _customerRepo.UpdateCustomer(customer);
         }
     }
 }
