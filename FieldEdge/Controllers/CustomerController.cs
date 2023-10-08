@@ -22,7 +22,7 @@ namespace FieldEdge.Controllers
 
         [HttpGet]
         [Route("Customers")]
-        public async Task<IActionResult> GetAllCustomers()
+        public async Task<IEnumerable<Customers>> GetAllCustomers()
         {
             IEnumerable<Customers> customers = new List<Customers>();
             try
@@ -37,7 +37,7 @@ namespace FieldEdge.Controllers
             {
 
             }
-            return Ok(customers);
+            return customers;
         }
 
 
@@ -52,6 +52,7 @@ namespace FieldEdge.Controllers
                 if (id > 0)
                 {
                     custResponse.SuccessMessage = "Record created with Id = "+ id +" Successfully !";
+                    custResponse.Customers = GetAllCustomers();
                 }
             }
             catch (Exception ex)
@@ -88,8 +89,8 @@ namespace FieldEdge.Controllers
         }
 
 
-        [HttpPost]
-        [Route("Customer/{id}")]
+        [HttpPut]
+        [Route("Customer")]
         public async Task<IActionResult> UpdateCustomer(Customers customer)
         {
             CustomerResponse custResponse = new CustomerResponse();
@@ -99,6 +100,7 @@ namespace FieldEdge.Controllers
                 if (status == 1)
                 {
                     custResponse.SuccessMessage = "Customer with Id =" + customer.Id + "updated successfully.";
+                    custResponse.Customers = GetAllCustomers();
                 }
             }
             catch (Exception ex)
@@ -124,6 +126,7 @@ namespace FieldEdge.Controllers
                 if(Success == 1)
                 {
                     custResponse.SuccessMessage = "Deleted Successfully.";
+                    custResponse.Customers = GetAllCustomers();
                 }
             }
             catch (Exception ex)
