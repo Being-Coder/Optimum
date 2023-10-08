@@ -1,0 +1,173 @@
+   Optimum SQL
+------------------------------------------
+
+* Create table *   
+   
+CREATE TABLE Customers(
+	Id int primary key identity(1,1),
+    Salutation varchar(20) default 'Mrs',
+    Initials varchar(50) default 'I.T.S',
+    Firstname varchar(50),
+    Firstname_ascii nvarchar(255) default '65 100 105 116 121 97',
+    Gender varchar(50),
+    Firstname_Country_Rank varchar(50) default '1',
+    Firstname_Country_Frequency varchar(50) ,
+    Lastname varchar(50),
+    Lastname_ascii nvarchar(255) default '65 100 105 116 121 97',
+    Lastname_Country_Rank varchar(50) default '2',
+    Lastname_Country_Frequency varchar(50),
+    Email varchar(255) NOT NULL,
+    [Password] nvarchar(255) default 'password@123',
+    Country_Code varchar(50),
+    Country_Code_Alpha varchar(50),
+    Country_Name varchar(255),
+    Primary_Language_Code varchar(50) default '51',
+    Primary_Language varchar(50) default 'English',
+    Balance int,
+    Phone_Number varchar(50),
+    Currency nvarchar(50) default '$',
+	IsActive bit
+)
+
+select * from Customers
+
+-------------------------------------------------------
+
+* Insert temp records
+
+Insert into Customers (Firstname,Gender,Lastname,Email,Country_Code,Country_Name,Balance,Phone_Number,IsActive) values 
+('Mark','Male','Walker','Mark12@gmail.com','1','USA',20000,'123-345-5678',1),
+('Eudward','Male','Watson','Eud21@gmail.com','1','USA',15000,'123-345-5678',1),
+('Lara','Female','Agar','Lara11@gmail.com','1','USA',30000,'123-345-5678',1),
+('Christin','Female','Burleson','Chris82@gmail.com','1','USA',25000,'123-345-5678',1),
+('Nelson','Male','Anderson','Nels341@gmail.com','1','USA',50000,'123-345-5678',1)
+
+--------------------------------------------------------------------
+
+* Create GetAllCustomer Procedure
+
+CREATE PROCEDURE GetAllCustomers
+AS
+BEGIN
+	SELECT
+	Id,
+    Salutation,
+    Initials,
+    Firstname,
+    Firstname_ascii,
+    Gender,
+    Firstname_Country_Rank,
+    Firstname_Country_Frequency,
+    Lastname,
+    Lastname_ascii,
+    Lastname_Country_Rank,
+    Lastname_Country_Frequency,
+    Email,
+    [Password],
+    Country_Code,
+    Country_Code_Alpha,
+    Country_Name,
+    Primary_Language_Code,
+    Primary_Language,
+    Balance,
+    Phone_Number,
+    Currency
+	FROM Customers
+	WHERE IsActive = 1
+END
+
+exec GetAllCustomers
+
+
+------------------------------------------------------------------
+
+
+ * GetCustomerById 
+ 
+ CREATE PROCEDURE GetCustomerById
+@Id int
+AS
+BEGIN
+	SELECT
+	Id,
+    Salutation,
+    Initials,
+    Firstname,
+    Firstname_ascii,
+    Gender,
+    Firstname_Country_Rank,
+    Firstname_Country_Frequency,
+    Lastname,
+    Lastname_ascii,
+    Lastname_Country_Rank,
+    Lastname_Country_Frequency,
+    Email,
+    [Password],
+    Country_Code,
+    Country_Code_Alpha,
+    Country_Name,
+    Primary_Language_Code,
+    Primary_Language,
+    Balance,
+    Phone_Number,
+    Currency
+	FROM Customers
+	WHERE IsActive = 1 and Id = @Id
+END
+   
+   
+-------------------------------------------------------------
+
+* DeleteCustomerById
+
+CREATE PROCEDURE DeleteCustomerById
+@Id int
+AS
+BEGIN
+	Update Customers Set IsActive = 0 where Id = @Id
+END   
+
+
+-----------------------------------------------------------
+
+* AddNewCustomer
+
+CREATE PROCEDURE AddNewCustomer
+@Firstname varchar(50),
+@Gender varchar(50),
+@Lastname varchar(50),
+@Email varchar(255),
+@Country_Code varchar(50),
+@Country_Name varchar(255),
+@Balance int,
+@Phone_Number varchar(50),
+AS
+BEGIN
+INSERT INTO Customers (Firstname, Gender, Lastname, Email, Country_Code, Country_Name, Balance, Phone_Number, IsActive) VALUES (@Firstname, @Gender, @Lastname, @Email, @Country_Code, @Country_Name, @Balance, @Phone_Number, 1)
+SELECT CAST(SCOPE_IDENTITY() as int);
+END
+
+
+--------------------------------------------------------------
+
+* Update 
+
+CREATE PROCEDURE UpdateCustomer
+@Id int,
+@Firstname varchar(50),
+@Gender varchar(50),
+@Lastname varchar(50),
+@Email varchar(255),
+@Country_Code varchar(50),
+@Country_Name varchar(255),
+@Balance int,
+@Phone_Number varchar(50)
+AS
+BEGIN
+Update Customers set Firstname = @Firstname, Gender = @Gender, Lastname = @Lastname, Email = @Email, 
+Country_Code = @Country_Code, Country_Name = @Country_Name, Balance = @Balance, Phone_Number = @Phone_Number where Id = @Id
+END
+
+
+-----------------------------------------------------------------------
+
